@@ -1,26 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
+
 import './App.css';
+import { useQuestions } from './hooks/questions'
+import { QuestionnaireInfo } from './components/QuestionnaireInfo'
+import Form from './components/Form';
+import { Loader } from './components/Loader';
+import { ErrorMessage } from './components/ErrorMessage';
 
 function App() {
+
+  const { loading, error, questions } = useQuestions()
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      { loading && <Loader />}
+      { error && <ErrorMessage error={error} />}
+      {!loading && !error &&
+        <>
+          <QuestionnaireInfo />
+          <Form questions={questions} />
+        </>
+      }
     </div>
-  );
+  )
+
 }
 
 export default App;
